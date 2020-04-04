@@ -1,0 +1,38 @@
+spring:
+  jpa:
+    database: POSTGRESQL
+    showSql: true
+    generateDdl: true
+    hibernate:
+      ddlAuto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        hbm2ddl.auto: update
+        ejb.naming_strategy: org.hibernate.cfg.ImprovedNamingStrategy
+        show_sql: true
+        format_sql: false
+  datasource:
+    platform: postgres
+    url: jdbc:postgresql://${DB_CONT_NAME}:${DB_PORT}/${DB_NAME}
+    username: ${DB_USER}
+    password: ${DB_PASSWORD}
+    driverClassName: org.postgresql.Driver
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health
+
+server:
+  port: ${FAR_SERVER_PORT}
+
+logging:
+  level:
+    org.springframework.web: WARN
+    org.hibernate.engine.jdbc.env.internal.LobCreatorBuilderImpl: ERROR
+    org.springframework.web.filter.CommonsRequestLoggingFilter: DEBUG
+
+cors:
+  allowedOrigins: ${WEBUI_URL}

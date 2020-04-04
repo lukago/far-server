@@ -1,0 +1,36 @@
+version: '3.7'
+
+services:
+  postgresdb:
+    image: postgres:12.2-alpine
+    container_name: postgresdb
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: postgrespwd
+      POSTGRES_USER: postgresuser
+      POSTGRES_DB: fardb
+    volumes:
+      - ~/.far-db:/var/lib/postgresql/data:rw
+    ports:
+      - "5432:5432"
+
+  far-server:
+    image: far-server:latest
+    hostname: far-server
+    container_name: far-server
+    restart: always
+    environment:
+      SPRING_PROFILES_ACTIVE: dev
+      LOG_LEVEL: DEBUG
+      DB_ADDRESS: postgresdb
+      DB_CONT_NAME: postgresdb
+      DB_PORT: 5432
+      DB_NAME: fardb
+      DB_USER: postgresuser
+      DB_PASSWORD: postgrespwd
+      DEBUG_PORT: 5015
+      FAR_SERVER_PORT: 8180
+      WEBUI_URL: "*"
+    ports:
+      - "8180:8180"
+      - "5015:5015"
