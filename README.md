@@ -1,3 +1,10 @@
 # Fixed Asset Register Server
-Spring REST server for fixed assets registers
+
+## Requirements
+- JDK 11 or above
+- Docker
+
+## Build 
+
+Run `./docker.run.sh` to build and start dockers for server app and database.
 

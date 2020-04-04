@@ -2,7 +2,7 @@
 
 script_name=`basename "$0"`
 clearEnv=0
-skipIT=0
+skipTests=0
 
 while getopts "cs" opt; do
   case ${opt} in
@@ -36,5 +36,5 @@ else
   mvn clean install -U
 fi
 
-docker build -t far-server .
-docker-compose -f docker-compose.local.yml up -d
+docker build -t far-server etc
+docker-compose -f etc/docker-compose.local.yml up -d

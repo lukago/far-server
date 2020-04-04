@@ -5,7 +5,7 @@ RUN apk --no-cache add \
 
 WORKDIR /usr/app
 
-COPY /target/far*.jar /usr/app/app.jar
+COPY far-server-app/target/far*.jar /usr/app/app.jar
 
 ENTRYPOINT [ \
   "sh", \
