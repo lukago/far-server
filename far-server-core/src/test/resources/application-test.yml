@@ -1,0 +1,16 @@
+spring:
+  profiles:
+    active: test
+  jpa:
+    database: H2
+    showSql: true
+    generateDdl: true
+    hibernate:
+      ddlAuto: update
+  datasource:
+    platform: h2
+    url: jdbc:h2:mem:testdb
+    username: sa
+    password:
+    driverClassName: org.h2.Driver
+

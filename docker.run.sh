@@ -36,5 +36,5 @@ else
   mvn clean install -U
 fi
 
-docker build -t far-server etc
+docker build -t far-server -f etc/Dockerfile .
 docker-compose -f etc/docker-compose.local.yml up -d
