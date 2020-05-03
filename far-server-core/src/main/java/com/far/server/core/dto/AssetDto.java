@@ -1,43 +1,67 @@
 package com.far.server.core.dto;
 
+import javax.validation.constraints.NotNull;
 import java.time.Instant;
 
 public class AssetDto {
 
-    String assetId;
-    String serialNumber;
+    @NotNull
+    String assetName;
+
+    @NotNull
+    String documentName;
+
+    @NotNull
     String categoryId;
-    Integer quantity;
+
+    @NotNull
     Instant purchaseDate;
+
+    @NotNull
+    Double purchaseAmountPLN;
+
+    @NotNull
+    Instant entryDate;
+
+    @NotNull
+    String amortizationType;
+
+    Instant invalidationDate;
 
     public AssetDto() {}
 
-    public AssetDto(String assetId,
-        String serialNumber,
+    public AssetDto(String assetName,
+        String documentName,
         String categoryId,
-        Integer quantity,
-        Instant purchaseDate) {
-        this.assetId = assetId;
-        this.serialNumber = serialNumber;
+        Instant purchaseDate,
+        Double purchaseAmountPLN,
+        Instant entryDate,
+        String amortizationType,
+        Instant invalidationDate) {
+        this.assetName = assetName;
+        this.documentName = documentName;
         this.categoryId = categoryId;
-        this.quantity = quantity;
         this.purchaseDate = purchaseDate;
+        this.purchaseAmountPLN = purchaseAmountPLN;
+        this.entryDate = entryDate;
+        this.amortizationType = amortizationType;
+        this.invalidationDate = invalidationDate;
     }
 
-    public String getAssetId() {
-        return assetId;
+    public String getAssetName() {
+        return assetName;
     }
 
-    public void setAssetId(String assetId) {
-        this.assetId = assetId;
+    public void setAssetName(String assetName) {
+        this.assetName = assetName;
     }
 
-    public String getSerialNumber() {
-        return serialNumber;
+    public String getDocumentName() {
+        return documentName;
     }
 
-    public void setSerialNumber(String serialNumber) {
-        this.serialNumber = serialNumber;
+    public void setDocumentName(String documentName) {
+        this.documentName = documentName;
     }
 
     public String getCategoryId() {
@@ -48,19 +72,43 @@ public class AssetDto {
         this.categoryId = categoryId;
     }
 
-    public Integer getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(Integer quantity) {
-        this.quantity = quantity;
-    }
-
     public Instant getPurchaseDate() {
         return purchaseDate;
     }
 
     public void setPurchaseDate(Instant purchaseDate) {
         this.purchaseDate = purchaseDate;
+    }
+
+    public Double getPurchaseAmountPLN() {
+        return purchaseAmountPLN;
+    }
+
+    public void setPurchaseAmountPLN(Double purchaseAmountPLN) {
+        this.purchaseAmountPLN = purchaseAmountPLN;
+    }
+
+    public Instant getEntryDate() {
+        return entryDate;
+    }
+
+    public void setEntryDate(Instant entryDate) {
+        this.entryDate = entryDate;
+    }
+
+    public String getAmortizationType() {
+        return amortizationType;
+    }
+
+    public void setAmortizationType(String amortizationType) {
+        this.amortizationType = amortizationType;
+    }
+
+    public Instant getInvalidationDate() {
+        return invalidationDate;
+    }
+
+    public void setInvalidationDate(Instant invalidationDate) {
+        this.invalidationDate = invalidationDate;
     }
 }

@@ -17,58 +17,63 @@ public class Asset {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column
-    private String assetId;
-
-    @Column
-    private String serialNumber;
-
-    @Column
-    private String categoryId;
-
-    @Column
-    private Integer quantity;
-
-    @Column
-    private Instant purchaseDate;
-
     @Version
     private Long version;
+
+    @Column(unique = true, nullable = false)
+    private String assetName;
+
+    @Column(nullable = false)
+    private String documentName;
+
+    @Column(nullable = false)
+    private AssetCategory assetCategory;
+
+    @Column(nullable = false)
+    private Instant purchaseDate;
+
+    @Column(nullable = false)
+    private Double purchaseAmountPLN;
+
+    @Column(nullable = false)
+    Instant entryDate;
+
+    @Column(nullable = false)
+    AmortizationType amortizationType;
+
+    @Column(nullable = true)
+    Instant invalidationDate;
 
     public Long getId() {
         return id;
     }
 
-    public String getAssetId() {
-        return assetId;
+    public Long getVersion() {
+        return version;
     }
 
-    public void setAssetId(String assetId) {
-        this.assetId = assetId;
+    public String getAssetName() {
+        return assetName;
     }
 
-    public String getSerialNumber() {
-        return serialNumber;
+    public void setAssetName(String assetName) {
+        this.assetName = assetName;
     }
 
-    public void setSerialNumber(String serialNumber) {
-        this.serialNumber = serialNumber;
+    public String getDocumentName() {
+        return documentName;
     }
 
-    public String getCategoryId() {
-        return categoryId;
+    public void setDocumentName(String documentName) {
+        this.documentName = documentName;
     }
 
-    public void setCategoryId(String categoryId) {
-        this.categoryId = categoryId;
+    public AssetCategory getAssetCategory() {
+        return assetCategory;
     }
 
-    public Integer getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(Integer quantity) {
-        this.quantity = quantity;
+    public void setAssetCategory(AssetCategory assetCategory) {
+        this.assetCategory = assetCategory;
     }
 
     public Instant getPurchaseDate() {
@@ -79,8 +84,36 @@ public class Asset {
         this.purchaseDate = purchaseDate;
     }
 
-    public Long getVersion() {
-        return version;
+    public Double getPurchaseAmountPLN() {
+        return purchaseAmountPLN;
+    }
+
+    public void setPurchaseAmountPLN(Double purchaseAmountPLN) {
+        this.purchaseAmountPLN = purchaseAmountPLN;
+    }
+
+    public Instant getEntryDate() {
+        return entryDate;
+    }
+
+    public void setEntryDate(Instant entryDate) {
+        this.entryDate = entryDate;
+    }
+
+    public AmortizationType getAmortizationType() {
+        return amortizationType;
+    }
+
+    public void setAmortizationType(AmortizationType amortizationType) {
+        this.amortizationType = amortizationType;
+    }
+
+    public Instant getInvalidationDate() {
+        return invalidationDate;
+    }
+
+    public void setInvalidationDate(Instant invalidationDate) {
+        this.invalidationDate = invalidationDate;
     }
 
     @Override
@@ -100,12 +133,15 @@ public class Asset {
     public String toString() {
         return "Asset{" +
             "id=" + id +
-            ", assetId='" + assetId + '\'' +
-            ", serialNumber='" + serialNumber + '\'' +
-            ", categoryId='" + categoryId + '\'' +
-            ", quantity=" + quantity +
-            ", purchaseDate=" + purchaseDate +
             ", version=" + version +
+            ", assetName='" + assetName + '\'' +
+            ", documentName='" + documentName + '\'' +
+            ", assetCategory=" + assetCategory +
+            ", purchaseDate=" + purchaseDate +
+            ", purchaseAmountPLN=" + purchaseAmountPLN +
+            ", entryDate=" + entryDate +
+            ", amortizationType=" + amortizationType +
+            ", invalidationDate=" + invalidationDate +
             '}';
     }
 }
