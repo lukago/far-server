@@ -18,6 +18,7 @@ public class DtoMapper {
         asset.setPurchaseAmountPLN(assetDto.getPurchaseAmountPLN());
         asset.setPurchaseDate(assetDto.getPurchaseDate());
         asset.setEntryDate(assetDto.getEntryDate());
+        asset.setDigressiveAmortizationCoefficient(assetDto.getDigressiveAmortizationCoefficient());
         asset.setInvalidationDate(assetDto.getInvalidationDate());
         return asset;
     }
@@ -31,6 +32,7 @@ public class DtoMapper {
         assetDto.setPurchaseAmountPLN(asset.getPurchaseAmountPLN());
         assetDto.setPurchaseDate(asset.getPurchaseDate());
         assetDto.setEntryDate(asset.getEntryDate());
+        assetDto.setDigressiveAmortizationCoefficient(asset.getDigressiveAmortizationCoefficient());
         assetDto.setInvalidationDate(asset.getInvalidationDate());
         return assetDto;
     }

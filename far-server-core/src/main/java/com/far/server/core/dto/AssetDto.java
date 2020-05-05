@@ -26,6 +26,8 @@ public class AssetDto {
     @NotNull
     String amortizationType;
 
+    Double digressiveAmortizationCoefficient;
+
     Instant invalidationDate;
 
     public AssetDto() {}
@@ -37,6 +39,7 @@ public class AssetDto {
         Double purchaseAmountPLN,
         Instant entryDate,
         String amortizationType,
+        Double digressiveAmortizationCoefficient,
         Instant invalidationDate) {
         this.assetName = assetName;
         this.documentName = documentName;
@@ -45,6 +48,7 @@ public class AssetDto {
         this.purchaseAmountPLN = purchaseAmountPLN;
         this.entryDate = entryDate;
         this.amortizationType = amortizationType;
+        this.digressiveAmortizationCoefficient = digressiveAmortizationCoefficient;
         this.invalidationDate = invalidationDate;
     }
 
@@ -102,6 +106,14 @@ public class AssetDto {
 
     public void setAmortizationType(String amortizationType) {
         this.amortizationType = amortizationType;
+    }
+
+    public Double getDigressiveAmortizationCoefficient() {
+        return digressiveAmortizationCoefficient;
+    }
+
+    public void setDigressiveAmortizationCoefficient(Double digressiveAmortizationCoefficient) {
+        this.digressiveAmortizationCoefficient = digressiveAmortizationCoefficient;
     }
 
     public Instant getInvalidationDate() {

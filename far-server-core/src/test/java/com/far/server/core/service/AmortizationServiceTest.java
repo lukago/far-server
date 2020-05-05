@@ -24,7 +24,7 @@ public class AmortizationServiceTest {
     @Test
     void amortizationLinearShouldReturnNotNullResult() {
         //given
-        Asset asset = sampleAsset();
+        Asset asset = sampleAsset(AmortizationType.LINEAR);
 
         //when
         var result = objectUnderTest.calculateAmortization(List.of(asset), Instant.now());
@@ -34,10 +34,24 @@ public class AmortizationServiceTest {
 
     }
 
-    private Asset sampleAsset() {
+    @Test
+    void amortizationDigressiveShouldReturnNotNullResult() {
+        //given
+        Asset asset = sampleAsset(AmortizationType.DIGRESSIVE);
+        asset.setDigressiveAmortizationCoefficient(2.0);
+
+        //when
+        var result = objectUnderTest.calculateAmortization(List.of(asset), Instant.now());
+
+        //then
+        assertThat(result).isNotNull();
+
+    }
+
+    private Asset sampleAsset(AmortizationType amortizationType) {
         Asset asset = new Asset();
-        asset.setAmortizationType(AmortizationType.LINEAR);
-        asset.setAssetCategory(AssetCategory.PHONE);
+        asset.setAmortizationType(amortizationType);
+        asset.setAssetCategory(AssetCategory.MOBILE_PHONE);
         asset.setAssetName("name");
         asset.setDocumentName("test doc");
         asset.setPurchaseAmountPLN(10000.0);

@@ -42,6 +42,9 @@ public class Asset {
     AmortizationType amortizationType;
 
     @Column(nullable = true)
+    Double digressiveAmortizationCoefficient;
+
+    @Column(nullable = true)
     Instant invalidationDate;
 
     public Long getId() {
@@ -106,6 +109,14 @@ public class Asset {
 
     public void setAmortizationType(AmortizationType amortizationType) {
         this.amortizationType = amortizationType;
+    }
+
+    public Double getDigressiveAmortizationCoefficient() {
+        return digressiveAmortizationCoefficient;
+    }
+
+    public void setDigressiveAmortizationCoefficient(Double digressiveAmortizationCoefficient) {
+        this.digressiveAmortizationCoefficient = digressiveAmortizationCoefficient;
     }
 
     public Instant getInvalidationDate() {

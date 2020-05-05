@@ -21,23 +21,54 @@ public class AmortizationService {
             .collect(Collectors.toList());
     }
 
-    private AssetAmortizationDto calculateAmortization(Asset asset, Instant amortizeForDate) {
+    public AssetAmortizationDto calculateAmortization(Asset asset, Instant amortizeForDate) {
         AmortizationType amortizationType = asset.getAmortizationType();
 
         if (amortizationType == AmortizationType.LINEAR) {
             return calculateLinearAmortization(asset, amortizeForDate);
+        } else if (amortizationType == AmortizationType.DIGRESSIVE) {
+            return calculateDigressiveAmortization(asset, amortizeForDate);
         } else {
             throw new UnsupportedOperationException("Unsupported amortization type: " + amortizationType);
         }
     }
 
-    private AssetAmortizationDto calculateLinearAmortization(Asset asset, Instant amortizeForDate) {
-        LocalDateTime startDate = LocalDateTime.ofInstant(asset.getEntryDate(), ZoneOffset.UTC.normalized())
-            .plusMonths(1)
-            .withDayOfMonth(1);
+    private AssetAmortizationDto calculateDigressiveAmortization(Asset asset, Instant amortizeForDate) {
+        LocalDateTime startDate = pickStartDate(asset);
         Instant amortizeForDatePicked = pickEndDateForAsset(asset, amortizeForDate);
-        LocalDateTime endDate = LocalDateTime.ofInstant(amortizeForDatePicked, ZoneOffset.UTC.normalized())
-            .withDayOfMonth(1);
+        LocalDateTime endDate = pickEndDate(amortizeForDatePicked);
+
+        double amortizedAmount = 0;
+        boolean linearStarted = false;
+        long months = ChronoUnit.MONTHS.between(startDate, endDate);
+
+        for (int i = 0; i < months; i++) {
+            double amortizationPerMonthLinear = asset.getPurchaseAmountPLN()
+                * asset.getAssetCategory().getAmortizationPercentage()
+                * 0.01
+                / 12;
+            double amortizationPerMonthDigressive = (asset.getPurchaseAmountPLN() - amortizedAmount)
+                * asset.getDigressiveAmortizationCoefficient();
+
+            if (linearStarted || amortizationPerMonthDigressive <= amortizationPerMonthDigressive) {
+                linearStarted = true;
+                amortizedAmount += amortizationPerMonthLinear;
+            } else {
+                amortizedAmount += amortizationPerMonthDigressive;
+            }
+        }
+
+        if (amortizedAmount > asset.getPurchaseAmountPLN()) {
+            amortizedAmount = asset.getPurchaseAmountPLN();
+        }
+
+        return buildAmortizationDto(asset, amortizeForDatePicked, amortizedAmount);
+    }
+
+    private AssetAmortizationDto calculateLinearAmortization(Asset asset, Instant amortizeForDate) {
+        LocalDateTime startDate = pickStartDate(asset);
+        Instant amortizeForDatePicked = pickEndDateForAsset(asset, amortizeForDate);
+        LocalDateTime endDate = pickEndDate(amortizeForDatePicked);
 
         long months = ChronoUnit.MONTHS.between(startDate, endDate);
         double amortizationPerMonth = asset.getPurchaseAmountPLN()
@@ -50,6 +81,33 @@ public class AmortizationService {
             amortizedAmount = asset.getPurchaseAmountPLN();
         }
 
+        return buildAmortizationDto(asset, amortizeForDatePicked, amortizedAmount);
+    }
+
+    private LocalDateTime pickStartDate(Asset asset) {
+        return LocalDateTime.ofInstant(asset.getEntryDate(), ZoneOffset.UTC.normalized())
+            .plusMonths(1)
+            .withDayOfMonth(1);
+    }
+
+    private LocalDateTime pickEndDate(Instant amortizeForDatePicked) {
+        return LocalDateTime.ofInstant(amortizeForDatePicked, ZoneOffset.UTC.normalized())
+            .withDayOfMonth(1);
+    }
+
+    private Instant pickEndDateForAsset(Asset asset, Instant amortizeForDate) {
+        if (asset.getInvalidationDate() == null) {
+            return amortizeForDate;
+        } else {
+            return amortizeForDate.isAfter(asset.getInvalidationDate()) ?
+                asset.getInvalidationDate() :
+                amortizeForDate;
+        }
+    }
+
+    private AssetAmortizationDto buildAmortizationDto(Asset asset,
+        Instant amortizeForDatePicked,
+        double amortizedAmount) {
         return new AssetAmortizationDto(
             asset.getAssetName(),
             asset.getDocumentName(),
@@ -61,17 +119,8 @@ public class AmortizationService {
             asset.getAssetCategory().getAmortizationPercentage(),
             amortizedAmount,
             amortizeForDatePicked,
+            asset.getDigressiveAmortizationCoefficient(),
             asset.getInvalidationDate()
         );
-    }
-
-    private Instant pickEndDateForAsset(Asset asset, Instant amortizeForDate) {
-        if (asset.getInvalidationDate() == null) {
-            return amortizeForDate;
-        } else {
-            return amortizeForDate.isAfter(asset.getInvalidationDate()) ?
-                asset.getInvalidationDate() :
-                amortizeForDate;
-        }
     }
 }

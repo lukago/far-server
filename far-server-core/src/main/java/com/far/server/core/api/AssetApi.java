@@ -7,7 +7,9 @@ import com.far.server.core.service.AmortizationService;
 import com.far.server.core.service.AssetService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -42,6 +44,16 @@ public class AssetApi {
         return ResponseEntity.ok(assetAmortizationDtoList);
     }
 
+    @GetMapping("/assets/{name}/amortize")
+    public ResponseEntity<AssetAmortizationDto> getAmortizedAssetByNameForDate(
+        @PathVariable String name,
+        @RequestParam String date) {
+        Asset asset = assetService.getAssetByName(name);
+        AssetAmortizationDto assetAmortizationDtoList = amortizationService
+            .calculateAmortization(asset, Instant.parse(date));
+        return ResponseEntity.ok(assetAmortizationDtoList);
+    }
+
     @GetMapping("/assets")
     public ResponseEntity<List<AssetDto>> getAllAssets() {
         List<AssetDto> dtoList = assetService.getAllAssets().stream()
@@ -50,9 +62,21 @@ public class AssetApi {
         return ResponseEntity.ok(dtoList);
     }
 
+    @GetMapping("/assets/{name}")
+    public ResponseEntity<?> getAssetByName(@PathVariable String name) {
+        AssetDto assetDto = dtoMapper.mapEntity(assetService.getAssetByName(name));
+        return ResponseEntity.ok(assetDto);
+    }
+
     @PostMapping("/assets")
     public ResponseEntity<Void> addAsset(@RequestBody @Valid AssetDto assetDto) {
         assetService.addAsset(dtoMapper.mapDto(assetDto));
+        return ResponseEntity.ok().build();
+    }
+
+    @PutMapping("/assets")
+    public ResponseEntity<Void> updateAsset(@RequestBody @Valid AssetDto assetDto) {
+        assetService.updateAsset(dtoMapper.mapDto(assetDto));
         return ResponseEntity.ok().build();
     }
 }

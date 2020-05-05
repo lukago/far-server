@@ -19,6 +19,7 @@ public class AssetAmortizationDto extends AssetDto {
         Double amortizationRateInPercentages,
         Double amountAmortized,
         Instant amortizationCalculationDate,
+        Double digressiveAmortizationCoefficient,
         Instant invalidationDate) {
         super(assetName,
             documentName,
@@ -27,6 +28,7 @@ public class AssetAmortizationDto extends AssetDto {
             purchaseAmountPLN,
             entryDate,
             amortizationType,
+            digressiveAmortizationCoefficient,
             invalidationDate);
         this.amortizationRateInPercentages = amortizationRateInPercentages;
         this.amountAmortized = amountAmortized;
