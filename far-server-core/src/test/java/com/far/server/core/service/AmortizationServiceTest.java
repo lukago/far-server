@@ -31,7 +31,6 @@ public class AmortizationServiceTest {
 
         //then
         assertThat(result).isNotNull();
-
     }
 
     @Test

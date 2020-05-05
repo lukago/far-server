@@ -48,9 +48,12 @@ public class AmortizationService {
                 * 0.01
                 / 12;
             double amortizationPerMonthDigressive = (asset.getPurchaseAmountPLN() - amortizedAmount)
-                * asset.getDigressiveAmortizationCoefficient();
+                * asset.getAssetCategory().getAmortizationPercentage()
+                * 0.01
+                * asset.getDigressiveAmortizationCoefficient()
+                / 12;
 
-            if (linearStarted || amortizationPerMonthDigressive <= amortizationPerMonthDigressive) {
+            if (linearStarted || amortizationPerMonthDigressive <= amortizationPerMonthLinear) {
                 linearStarted = true;
                 amortizedAmount += amortizationPerMonthLinear;
             } else {
