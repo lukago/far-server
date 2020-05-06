@@ -34,7 +34,7 @@ public enum AssetCategory {
             .findFirst()
             .orElseThrow(() -> new ResponseStatusException(
                 HttpStatus.BAD_REQUEST,
-                "Could not found any category for id:" + id));
+                "Did not find any category for id: " + id));
     }
 
     public Integer getCategoryId() {

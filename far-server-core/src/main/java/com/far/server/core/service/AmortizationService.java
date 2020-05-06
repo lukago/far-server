@@ -3,7 +3,9 @@ package com.far.server.core.service;
 import com.far.server.core.dto.AssetAmortizationDto;
 import com.far.server.core.entity.AmortizationType;
 import com.far.server.core.entity.Asset;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
@@ -32,7 +34,9 @@ public class AmortizationService {
         } else if (amortizationType == DIGRESSIVE) {
             return calculateDigressiveAmortization(asset, amortizeForDate);
         } else {
-            throw new UnsupportedOperationException("Unsupported amortization type: " + amortizationType);
+            throw new ResponseStatusException(
+                HttpStatus.BAD_REQUEST,
+                "Unsupported operation type: " + amortizationType);
         }
     }
 
