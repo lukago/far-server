@@ -1,5 +1,8 @@
 package com.far.server.core.entity;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.web.server.ResponseStatusException;
+
 import java.util.Arrays;
 
 public enum AssetCategory {
@@ -25,18 +28,20 @@ public enum AssetCategory {
         this.amortizationPercentage = amortizationPercentage;
     }
 
+    public static AssetCategory valueOfById(String id) {
+        return Arrays.stream(AssetCategory.values())
+            .filter(cat -> cat.getCategoryId().toString().equals(id))
+            .findFirst()
+            .orElseThrow(() -> new ResponseStatusException(
+                HttpStatus.BAD_REQUEST,
+                "Could not found any category for id:" + id));
+    }
+
     public Integer getCategoryId() {
         return categoryId;
     }
 
     public Double getAmortizationPercentage() {
         return amortizationPercentage;
-    }
-
-    public static AssetCategory valueOfById(String id) {
-        return Arrays.stream(AssetCategory.values())
-            .filter(cat -> cat.getCategoryId().toString().equals(id))
-            .findFirst()
-            .orElseThrow();
     }
 }
