@@ -44,7 +44,6 @@ public class AmortizationServiceTest {
 
         //then
         assertThat(result).isNotNull();
-
     }
 
     private Asset sampleAsset(AmortizationType amortizationType) {

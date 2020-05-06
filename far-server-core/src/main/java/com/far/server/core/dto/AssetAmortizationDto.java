@@ -1,11 +1,14 @@
 package com.far.server.core.dto;
 
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
 
 public class AssetAmortizationDto extends AssetDto {
     Double amortizationRateInPercentages;
     Double amountAmortized;
     Instant amortizationCalculationDate;
+    AmortizationMeta amortizationMeta;
 
     private AssetAmortizationDto() {}
 
@@ -20,7 +23,8 @@ public class AssetAmortizationDto extends AssetDto {
         Double amountAmortized,
         Instant amortizationCalculationDate,
         Double digressiveAmortizationCoefficient,
-        Instant invalidationDate) {
+        Instant invalidationDate,
+        AmortizationMeta amortizationMeta) {
         super(assetName,
             documentName,
             categoryId,
@@ -33,6 +37,7 @@ public class AssetAmortizationDto extends AssetDto {
         this.amortizationRateInPercentages = amortizationRateInPercentages;
         this.amountAmortized = amountAmortized;
         this.amortizationCalculationDate = amortizationCalculationDate;
+        this.amortizationMeta = amortizationMeta;
     }
 
     public Double getAmortizationRateInPercentages() {
@@ -57,5 +62,20 @@ public class AssetAmortizationDto extends AssetDto {
 
     public void setAmortizationCalculationDate(Instant amortizationCalculationDate) {
         this.amortizationCalculationDate = amortizationCalculationDate;
+    }
+
+    public static class AmortizationMeta {
+        public AmortizationMeta() {
+            this.amortizationMonthEntries = new ArrayList<>();
+        }
+
+        public List<AmortizationMonthEntry> amortizationMonthEntries;
+    }
+
+    public static class AmortizationMonthEntry {
+        public Instant monthStartDate;
+        public String amortizationType;
+        public Double amortizedAmountPLN;
+        public Double amortizationBasePLN;
     }
 }
