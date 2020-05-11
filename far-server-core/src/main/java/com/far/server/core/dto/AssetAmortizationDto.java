@@ -64,6 +64,14 @@ public class AssetAmortizationDto extends AssetDto {
         this.amortizationCalculationDate = amortizationCalculationDate;
     }
 
+    public AmortizationMeta getAmortizationMeta() {
+        return amortizationMeta;
+    }
+
+    public void setAmortizationMeta(AmortizationMeta amortizationMeta) {
+        this.amortizationMeta = amortizationMeta;
+    }
+
     public static class AmortizationMeta {
         public AmortizationMeta() {
             this.amortizationMonthEntries = new ArrayList<>();
